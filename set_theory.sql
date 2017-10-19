@@ -71,9 +71,15 @@ WHERE code IN
      WHERE region = 'Middle East')
 ORDER BY name;
 
+--Another powerful join in SQL is the anti-join. It is particularly useful in identifying which records are causing an incorrect number of records to appear in join queries.You will also see another example of a subquery here, as you saw in the first exercise on semi-joins. Your goal is to identify the currencies used in Oceanian countries!
 
 
-
+SELECT code,name 
+FROM countries
+WHERE continent = 'Oceania'
+AND code NOT IN
+ (SELECT code
+  FROM currencies );
 
 
 
