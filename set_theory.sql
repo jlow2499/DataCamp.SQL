@@ -60,6 +60,20 @@ SELECT capital
 FROM countries
 ORDER BY name;
 
+--Semi-Join
+--Now combine the previous two queries into one query using WHERE to determine the unique languages spoken in the Middle East.
+Carefully review this result and its code after completing it.  It serves as a great example of subqueries, which are the focus of Chapter 4.
+SELECT DISTINCT(name)
+FROM languages
+WHERE code IN
+    (SELECT code
+     FROM countries
+     WHERE region = 'Middle East')
+ORDER BY name;
+
+
+
+
 
 
 
