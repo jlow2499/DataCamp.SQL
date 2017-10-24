@@ -121,6 +121,39 @@ SELECT MAX(inflation_rate) AS max_inf
 GROUP BY continent;
 
 
+ --   Append the second part's query to the first part's query using WHERE, AND, and IN to obtain the name of the country, its continent, and the maximum inflation rate for each continent in 2015. Revisit the sample output in the assignment text at the beginning of the exercise to see how this matches up.
+--    For the sake of practice, change all joining conditions to use ON instead of USING.
+
+--This code works since each of the six maximum inflation rate values occur only once in the 2015 data. Think about whether this particular code involving subqueries would work in cases where there are ties for the maximum inflation rate values.
+
+SELECT name, continent, inflation_rate
+FROM countries
+INNER JOIN economies
+ON countries.code = economies.code
+WHERE year = 2015
+    AND inflation_rate IN (
+        SELECT MAX(inflation_rate) AS max_inf
+        FROM (
+             SELECT name, continent, inflation_rate
+             FROM countries
+             INNER JOIN economies
+             ON countries.code = economies.code
+             WHERE year = 2015) AS subquery
+        GROUP BY continent);
 
 
+--Let's test your understanding of the subqueries with a challenge problem! Use a subquery to get 2015 economic data for countries that do not have
+
+--    gov_form of "Constitutional Monarchy" or
+ --   'Republic' in their gov_form.
+
+--Here, gov_form stands for the form of the government for each country. Review the different entries for gov_form in the countries table.
+        
+ SELECT code, inflation_rate, unemployment_rate
+FROM economies
+WHERE year = 2015 AND code NOT IN
+  (SELECT code
+   FROM countries
+   WHERE (gov_form = 'Constitutional Monarchy' OR gov_form LIKE '%Republic%'))
+ORDER BY inflation_rate;
 
