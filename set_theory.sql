@@ -106,5 +106,21 @@ WHERE country_code IN
  FROM populations AS p);
 
 
+--    Append the second part's query to the first part's query using WHERE, AND, and IN to obtain the name of the country, its continent, and the maximum inflation rate for each continent in 2015. Revisit the sample output in the assignment text at the beginning of the exercise to see how this matches up.
+--    For the sake of practice, change all joining conditions to use ON instead of USING.
+
+--This code works since each of the six maximum inflation rate values occur only once in the 2015 data. Think about whether this particular code involving subqueries would work in cases where there are ties for the maximum inflation rate values.
+
+SELECT MAX(inflation_rate) AS max_inf
+  FROM (
+      SELECT code, continent,inflation_rate
+      FROM countries
+      INNER JOIN economies
+      USING (code)
+      WHERE economies.year = 2015) AS subquery
+GROUP BY continent;
+
+
+
 
 
